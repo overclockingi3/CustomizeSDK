@@ -23,4 +23,12 @@ compile project(':util')
 
 ![输出aar文件](http://upload-images.jianshu.io/upload_images/5544786-7e4672e29341e3a5.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
 
-最后再补充一下，在另一个项目中引用只需在gradle的依赖里加入```compile(name: 'util-release', ext: 'aar')```即可
+最后再补充一下，在另一个项目中引用需要在gradle加上
+```
+repositories {
+    flatDir {
+        dirs 'libs'
+    }
+}
+```
+然后在依赖里加入```compile(name: 'util-release', ext: 'aar')```即可
