@@ -20,14 +20,15 @@ import java.io.File;
  *     ┃     ┃神兽保佑
  *     ┃     ┃代码无BUG！
  *     ┃     ┗━━━━━━━━┓
- *     ┃              ┣┓
- *     ┃              ┏┛
+ *     ┃                   ┣┓
+ *     ┃                   ┏┛
  *     ┗┓┓┏━┳┓┓┏━━━┓┓┏┛
  *      ┃┫┫  ┃┫┫   ┃┫┫
  *      ┗┻┛  ┗┻┛   ┗┻┛
  */
 
 public class SDCardUtils {
+
     public SDCardUtils() {
         /* cannot be instantiated */
         throw new UnsupportedOperationException("cannot be instantiated");

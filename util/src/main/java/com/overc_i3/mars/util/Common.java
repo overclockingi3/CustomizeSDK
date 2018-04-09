@@ -1,8 +1,13 @@
 package com.overc_i3.mars.util;
 
+import android.app.Activity;
 import android.app.DatePickerDialog;
+import android.app.Service;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.media.RingtoneManager;
+import android.net.Uri;
+import android.os.Vibrator;
 import android.view.ViewConfiguration;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.DatePicker;
@@ -11,28 +16,31 @@ import android.widget.TextView;
 
 import java.lang.reflect.Field;
 
+import static android.content.Context.INPUT_METHOD_SERVICE;
+
 /**
  * Created by Mars on 2017/8/25.
  *    ┏┓   ┏┓
  *   ┏┛┻━━━┛┻━━┓
- *   ┃         ┃
- *   ┃         ┃
- *   ┃  ┳┛ ┗┳  ┃
- *   ┃         ┃
+ *   ┃             ┃
+ *   ┃            ┃
+ *   ┃  ┳┛ ┗┳ ┃
+ *   ┃          ┃
  *   ┃    ┻    ┃
  *   ┃         ┃
  *   ┗━┓     ┏━┛
  *     ┃     ┃神兽保佑
  *     ┃     ┃代码无BUG！
  *     ┃     ┗━━━━━━━━┓
- *     ┃              ┣┓
- *     ┃              ┏┛
+ *     ┃                    ┣┓
+ *     ┃                    ┏┛
  *     ┗┓┓┏━┳┓┓┏━━━┓┓┏┛
  *      ┃┫┫  ┃┫┫   ┃┫┫
  *      ┗┻┛  ┗┻┛   ┗┻┛
  */
 
 public class Common {
+
     private static long lastClickTime = 0;
 
     /**
@@ -126,6 +134,65 @@ public class Common {
                 .getSystemService(Context.INPUT_METHOD_SERVICE);
 
         imm.hideSoftInputFromWindow(editText.getWindowToken(), 0);
+    }
+
+    /**
+     * 控制软键盘的打开与关闭
+     * @param context 调用方法的对象
+     */
+    public static void controlKeyboard(Context context) {
+        InputMethodManager inputMethodManager = (InputMethodManager) context.getSystemService(INPUT_METHOD_SERVICE);
+        if (inputMethodManager != null) {
+            inputMethodManager.toggleSoftInput(0, InputMethodManager.HIDE_NOT_ALWAYS);
+        }
+    }
+
+    //震动milliseconds毫秒
+    public static void vibrate(final Activity activity, long milliseconds) {
+        Vibrator vib = (Vibrator) activity.getSystemService(Service.VIBRATOR_SERVICE);
+        if (vib != null) {
+            vib.vibrate(milliseconds);
+        }
+    }
+
+    /**
+     * 以pattern[]方式震动
+     * 举个例子：vibrate(new int[]{100,200,300,400},2)是指：先等待100ms，震动200ms，再等待300ms，震动400ms，
+     * 接着就从pattern[2]的位置开始重复，就是继续的等待300ms，震动400ms，一直重复下去。
+     * 传入0就是从开头一直重复下去，传入-1就是不重复震动。
+     * @param activity 活动界面
+     * @param pattern 震动方式
+     * @param repeat 是否重复震动
+     */
+    public static void vibrate(final Activity activity, long[] pattern,int repeat){
+        Vibrator vib = (Vibrator) activity.getSystemService(Service.VIBRATOR_SERVICE);
+        if (vib != null) {
+            vib.vibrate(pattern,repeat);
+        }
+    }
+
+    /**
+     * 取消震动
+     */
+    public static void virateCancle(final Activity activity){
+        Vibrator vib = (Vibrator) activity.getSystemService(Service.VIBRATOR_SERVICE);
+        if (vib != null) {
+            vib.cancel();
+        }
+    }
+
+    /**
+     * 播放提示音
+     * @param context 调用对象
+     * @param uri 提示音文件路径，值为null时播放系统提示音
+     */
+    public static void Ringtone(Context context, Uri uri) {
+        if (uri == null) {
+            RingtoneManager.getRingtone(context,
+                    RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION)).play();
+        } else {
+            RingtoneManager.getRingtone(context, uri).play();
+        }
     }
 
     /**
